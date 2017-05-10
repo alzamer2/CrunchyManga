@@ -29,6 +29,7 @@ import argparse
 from zipfile import *
 import cfscrape
 from cookielib import LWPCookieJar
+from cookielib import Cookie
 
 class MangaDownloader():
 
@@ -232,6 +233,7 @@ class MangaDownloader():
         cookies = self.scraper
         cookies.cookies = LWPCookieJar('cookies.txt')
         cookies.cookies.load()
+        cookies.cookies.set_cookie(Cookie(version=0, name='session_id', value=re.split('"',urllib2.urlopen('https://cr.onestay.moe/getid').read())[5], port=None, port_specified=False, domain=".crunchyroll.com", domain_specified=True, domain_initial_dot=False, path="/", path_specified=True, secure=True, expires=9999999999, discard=False, comment=None, comment_url=None, rest={'HttpOnly': False}))
         html = self.scraper.get(url).content
         cookies.cookies.save()
         return html
